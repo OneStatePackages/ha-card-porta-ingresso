@@ -1,6 +1,6 @@
-### Installazione tramite HACS
+# Installazione tramite HACS
 
-Se vuoi installare automaticamente la **Custom Card Porta Ingresso** tramite HACS, segui questi semplici passaggi:
+Se vuoi installare automaticamente **Door Package Card** tramite HACS, segui questi semplici passaggi:
 
 ## 1. Aggiungere il repository a HACS
 
@@ -11,31 +11,15 @@ Se vuoi installare automaticamente la **Custom Card Porta Ingresso** tramite HAC
    ```
    https://github.com/OneStatePackages/ha-card-porta-ingresso
    ```
-5. oppure premi il tasto qui sotto
+5. cerca "Door Package Card" nella lista e scaricala.
 
-[![Open your Home Assistant instance and open a repository inside the Home Assistant Community Store.](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=OneStatePackages+&repository=https%3A%2F%2Fgithub.com%2FOneStatePackages%2Fha-card-porta-ingresso&category=Dashboard)
-
-## 2. Installazione della Custom Card
-
-1. Dopo aver aggiunto il repository, cerca **ha-card-porta-ingresso** nell'elenco delle integrazioni HACS.
-2. Clicca su **Install** per avviare il processo di installazione.
-3. Una volta completata l'installazione, vai su **Lovelace** e **Gestisci Risorse** per aggiungere la risorsa del file JS, come descritto nella sezione precedente.
-
-## 3. Aggiungi la Card alla tua Dashboard
-
-Una volta installata la card tramite HACS, puoi configurarla come spiegato nella sezione **Configurazione della Card** qui sopra.
-
-## Link Utili
-
-- Repository GitHub: [ha-card-porta-ingresso](https://github.com/OneStatePackages/ha-card-porta-ingresso)
-
-## 3. Configurazione della Card
+## 2. Configurazione della Card
 
 
-Per utilizzare la Custom Card Porta Ingresso nel tuo dashboard, puoi aggiungere la seguente configurazione nel tuo file YAML di Lovelace:
+Per utilizzare "Door Package Card" nella tuo dashboard, puoi aggiungere una scheda in modalita manuale nella tua Dashboard ed incollare questo codice:
 
 
-```yaml
+```
 type: custom:door-package-card
 smartlock: lock.porta
 building-door: switch.cancello
@@ -44,14 +28,16 @@ sensor: binary_sensor.sensore_porta_package     #CONFIGURAZIONE OBBLIGATORIA
 
 
 # Parametri:
-- `smartlock`: La tua entità  che rappresenta il blocco della porta (e.g., `lock.porta`).
-- `building-door`: La tua entitÃ  che rappresenta il cancello o portone (e.g., `switch.cancello`).
-- `sensor`: La tua entità  sensore della porta, che rileva se la porta è aperta o chiusa (e.g., `binary_sensor.sensore_porta_package`).
+- `smartlock`: La tua entità  che rappresenta il blocco della porta (tipi di entità configurabili: `lock`).
+- `building-door`: La tua entità che rappresenta il cancello o portone (tipi di entità configurabili: `switch`,`script`,`lock`).
+- `sensor`: La tua entità  sensore della porta, che rileva se la porta è aperta o chiusa (e.g., `binary_sensor.sensore_porta_package`). Questo sensore è obbligatorio e fa parte del package, quindi scrivere quello di default.
+
+
 
 
 ### Installazione Manuale
 
-Per integrare la **Custom Card Porta Ingresso** in Home Assistant, segui questi passaggi:
+Per integrare la **Door Package Card** in Home Assistant, segui questi passaggi:
 
 ## 1. Posizionamento del file JS
 
@@ -70,7 +56,7 @@ Per caricare correttamente la Custom Card, aggiungi la seguente configurazione a
 2. Clicca sui tre puntini in alto a destra e seleziona **Gestisci Risorse**.
 3. Aggiungi la seguente riga nel campo di configurazione delle risorse:
 
-```yaml
+```
 resources:
   - url: /local/community/door-package-card.js
     type: module
