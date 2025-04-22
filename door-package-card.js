@@ -975,7 +975,7 @@ class DoorPackageCard extends HTMLElement {
           <div class="contenuto">
             <img
               class="img-porta"
-              src="/local/community/door-package-card/porta-${doorState.toLowerCase()}.png"
+              src="/local/community/ha-card-porta-ingresso/porta-${doorState.toLowerCase()}.png"
               alt="Stato Porta"
             />
             <div class="pulsanti-laterali">
