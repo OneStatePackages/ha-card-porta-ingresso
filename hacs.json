@@ -1,0 +1,11 @@
+{
+  "name": "Door Package Card",
+  "content_in_root": false,
+  "filename": "door-package-card.js",
+  "domain": "door-package-card",
+  "documentation": "https://github.com/OneStatePackages/door-package-card",
+  "issue_tracker": "https://github.com/OneStatePackages/door-package-card/issues",
+  "version": "1.0.0",
+  "type": "js",
+  "render_readme": true
+}
