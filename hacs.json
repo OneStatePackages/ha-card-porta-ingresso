@@ -1,7 +1,7 @@
 {
-  "name": "ha-card-porta-ingresso",
+  "name": "door-package-card",
   "render_readme": true,
   "homeassistant": "2023.1.0b0",
-  "filename": "ha-card-porta-ingresso.js",
-  "persistent_directory": "www/ha-card-porta-ingresso"
+  "filename": "door-package-card.js",
+  "persistent_directory": "www/door-package-card"
 }
