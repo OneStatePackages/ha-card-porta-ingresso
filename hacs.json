@@ -1,16 +1,16 @@
 {
   "name": "Door Package Card",
   "content_in_root": false,
-  "filename": "door-package-card.js",
-  "domain": "door-package-card",
-  "documentation": "https://github.com/OneStatePackages/door-package-card",
-  "issue_tracker": "https://github.com/OneStatePackages/door-package-card/issues",
+  "filename": "dist/door-package-card.js",
+  "domain": "ha-card-porta-ingresso",
+  "documentation": "https://github.com/OneStatePackages/ha-card-porta-ingresso",
+  "issue_tracker": "https://github.com/OneStatePackages/ha-card-porta-ingresso/issues",
   "version": "1.0.0",
   "type": "js",
-  "render_readme": true
+  "render_readme": true,
   "file": [
-    "door-package-card.js",
-    "media/porta-aperta.png",
-    "media/porta-chiusa.png"
+    "dist/door-package-card.js",
+    "dist/porta-aperta.png",
+    "dist/porta-chiusa.png"
   ]
 }
