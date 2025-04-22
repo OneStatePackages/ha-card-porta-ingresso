@@ -31,7 +31,7 @@ Per utilizzare la Custom Card Porta Ingresso nel tuo dashboard, puoi aggiungere 
 type: custom:door-package-card
 smartlock: lock.porta
 building-door: switch.cancello
-sensor: binary_sensor.sensore_porta_package
+sensor: binary_sensor.sensore_porta_package     #OBBLIGATORIO
 ```
 
 Parametri:
