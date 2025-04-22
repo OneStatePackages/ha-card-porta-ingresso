@@ -8,4 +8,9 @@
   "version": "1.0.0",
   "type": "js",
   "render_readme": true
+  "file": [
+    "door-package-card.js",
+    "media/porta-aperta.png",
+    "media/porta-chiusa.png"
+  ]
 }
