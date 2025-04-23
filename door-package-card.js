@@ -163,8 +163,16 @@ class DoorPackageCard extends HTMLElement {
   toggleModal(type) {
     if (type) {
       const settings = this.getSettingsData();
-      const pinFeedback = this._hass.states['input_text.pin_feedback']?.state || '----';
-      const snapshotPath = this._hass.states['input_text.snapshot_path_frontend']?.state;
+	  const pinFeedback = (
+	    this._hass.states['input_text.pin_feedback'] &&
+	    this._hass.states['input_text.pin_feedback'].state
+	  ) || '----';
+
+	  const snapshotPath = (
+	    this._hass.states['input_text.snapshot_path_frontend'] &&
+	    this._hass.states['input_text.snapshot_path_frontend'].state
+	  );
+
 
       this._modalContainer.innerHTML = this.renderModal(type, pinFeedback, settings, snapshotPath);
       this._modalContainer.style.display = 'block';
@@ -190,7 +198,7 @@ class DoorPackageCard extends HTMLElement {
   renderModal(type, pinFeedback, settings, snapshotPath) {
     return `
       <div class="modal-overlay" onclick="this.getRootNode().host.toggleModal(null)">
-        <div class="popup-content" onclick="event.stopPropagation()">
+        <div class="popup-content popup-${type}" data-type="${type}" onclick="event.stopPropagation()">
           ${this.getModalContent(type, pinFeedback, settings, snapshotPath)}
           <button class="chiudi" onclick="this.getRootNode().host.toggleModal(null)">✖</button>
         </div>
@@ -206,8 +214,8 @@ class DoorPackageCard extends HTMLElement {
 
       .card {
         width: 100%;
-        height: 80%;
         max-width: 450px;
+        max-height: 400px;
         padding: 24px;
         background: linear-gradient(145deg, #2d3748, #1a1f2c);
         border-radius: 30px;
@@ -301,7 +309,7 @@ class DoorPackageCard extends HTMLElement {
       }
 
       .img-porta {
-        width: clamp(180px, 40vw, 240px);
+        width: clamp(150px, 35vw, 220px);
         aspect-ratio: 1 / 1;
         border-radius: 24px;
         box-shadow:
@@ -334,7 +342,7 @@ class DoorPackageCard extends HTMLElement {
         padding: clamp(14px, 3vw, 18px);
         font-size: clamp(14px, 3vw, 16px);
         text-align: left;
-        min-width: clamp(130px, 25vw, 150px);
+        min-width: clamp(110px, 20vw, 130px);
         cursor: pointer;
         transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         box-shadow:
@@ -361,7 +369,7 @@ class DoorPackageCard extends HTMLElement {
       }
 
       .modal-overlay {
-        position: absolute;
+        position: fixed; /* <-- QUESTA È LA CHIAVE */
         top: 0;
         left: 0;
         right: 0;
@@ -373,15 +381,15 @@ class DoorPackageCard extends HTMLElement {
         align-items: center;
         z-index: 1000;
       }
-
+      /* === POPUP BASE === */
       .popup-content {
         background: linear-gradient(145deg, #2d3748, #1a1f2c);
         padding: clamp(28px, 5vw, 36px);
         border-radius: 30px;
         text-align: center;
         color: #fff;
-        width: 90% !important;
-        max-width: 300px;
+        width: 100% !important;
+        max-width: 250px;
         border: 1px solid rgba(255, 255, 255, 0.1);
         box-shadow:
           0 25px 50px rgba(0, 0, 0, 0.3),
@@ -389,28 +397,27 @@ class DoorPackageCard extends HTMLElement {
         position: relative;
       }
 
-      .popup-content h3 {
-        font-size: clamp(20px, 4vw, 24px);
-        margin: 0 0 24px 0;
-        color: #fff;
-        letter-spacing: -0.5px;
-        font-weight: 600;
+      /* === POPUP SNAPSHOT === */
+      .popup-snapshot {
+        max-width: 600px !important;
       }
-
-      .photo {
-        width: 100%; /* L'immagine occupa tutta la larghezza disponibile */
-        object-fit: contain; /* Contiene l'immagine senza ritagliarla */
+      .popup-snapshot .photo {
+        width: 100%;
+        max-height: 600px;
+        object-fit: contain;
         border-radius: 20px;
         box-shadow:
           0 25px 50px rgba(0, 0, 0, 0.3),
           0 0 0 1px rgba(255, 255, 255, 0.1) inset;
       }
 
-
-
-      .pin-feedback {
+      /* === POPUP PIN === */
+      .popup-pin {
+        max-width: 250px !important;
+      }
+      .popup-pin .pin-feedback {
         background: linear-gradient(145deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.03));
-        padding: clamp(14px, 3vw, 18px) clamp(20px, 4vw, 28px);
+        padding: clamp(7px, 1.5vw, 9px) clamp(10px, 2vw, 13px);
         border-radius: 18px;
         font-size: clamp(22px, 4vw, 26px);
         margin: 20px 0;
@@ -425,16 +432,14 @@ class DoorPackageCard extends HTMLElement {
           0 4px 12px rgba(0, 0, 0, 0.1),
           0 0 0 1px rgba(255, 255, 255, 0.05) inset;
       }
-
-      .pin-box {
+      .popup-pin .pin-box {
         display: grid;
         grid-template-columns: repeat(3, minmax(65px, 75px));
-        gap: 14px;
+        gap: 7px;
         justify-content: center;
-        margin: 28px 0;
+        margin: 14px 0;
       }
-
-      .pin-box button {
+      .popup-pin .pin-box button {
         background: linear-gradient(145deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.03));
         color: #fff;
         font-size: clamp(20px, 4vw, 22px);
@@ -447,16 +452,14 @@ class DoorPackageCard extends HTMLElement {
           0 4px 12px rgba(0, 0, 0, 0.1),
           0 0 0 1px rgba(255, 255, 255, 0.05) inset;
       }
-
-      .pin-box button:hover {
+      .popup-pin .pin-box button:hover {
         background: linear-gradient(145deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.06));
         transform: translateY(-2px);
         box-shadow:
           0 8px 20px rgba(0, 0, 0, 0.15),
           0 0 0 1px rgba(255, 255, 255, 0.1) inset;
       }
-
-      .blocca-btn {
+      .popup-pin .blocca-btn {
         background: linear-gradient(145deg, rgba(239, 68, 68, 0.15), rgba(239, 68, 68, 0.1));
         color: #ef4444;
         font-weight: 600;
@@ -470,12 +473,114 @@ class DoorPackageCard extends HTMLElement {
         letter-spacing: 0.3px;
         box-shadow: 0 4px 12px rgba(239, 68, 68, 0.1);
       }
-
-      .blocca-btn:hover {
+      .popup-pin .blocca-btn:hover {
         background: linear-gradient(145deg, rgba(239, 68, 68, 0.2), rgba(239, 68, 68, 0.15));
         transform: translateY(-2px);
         box-shadow: 0 8px 20px rgba(239, 68, 68, 0.15);
       }
+
+      /* === POPUP SETTINGS === */
+      .popup-settings {
+        max-width: 350px !important;
+      }
+      .popup-settings .popup-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 28px;
+      }
+      .popup-settings .popup-header h2 {
+        margin: 0;
+        font-size: clamp(20px, 4vw, 24px);
+        font-weight: 600;
+        color: #fff;
+        letter-spacing: -0.5px;
+      }
+      .popup-settings .setting-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: clamp(14px, 3vw, 18px) 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        font-size: clamp(14px, 3vw, 15px);
+        color: #e2e8f0;
+        letter-spacing: 0.3px;
+      }
+      .popup-settings .setting-row:last-child {
+        border-bottom: none;
+      }
+      .popup-settings .toggle-group {
+        display: flex;
+        align-items: center;
+        gap: clamp(10px, 2vw, 14px);
+      }
+      .popup-settings input[type="time"] {
+        background: linear-gradient(145deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.03));
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        color: #fff;
+        padding: clamp(8px, 1.5vw, 10px) clamp(12px, 2.5vw, 14px);
+        border-radius: 12px;
+        font-size: clamp(14px, 3vw, 15px);
+        box-shadow:
+          0 4px 12px rgba(0, 0, 0, 0.1),
+          0 0 0 1px rgba(255, 255, 255, 0.05) inset;
+      }
+      .popup-settings .switch {
+        position: relative;
+        display: inline-block;
+        width: clamp(40px, 8vw, 44px);
+        height: clamp(22px, 4.5vw, 24px);
+      }
+      .popup-settings .switch input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+      }
+      .popup-settings .slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(145deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.03));
+        transition: 0.4s;
+        border-radius: 34px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        box-shadow:
+          0 4px 12px rgba(0, 0, 0, 0.1),
+          0 0 0 1px rgba(255, 255, 255, 0.05) inset;
+      }
+      .popup-settings .slider:before {
+        position: absolute;
+        content: "";
+        height: calc(100% - 4px);
+        width: calc(50% - 2px);
+        left: 2px;
+        bottom: 2px;
+        background-color: #fff;
+        transition: 0.4s;
+        border-radius: 50%;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+      .popup-settings input:checked + .slider {
+        background: linear-gradient(145deg, rgba(96, 165, 250, 0.3), rgba(96, 165, 250, 0.2));
+        border-color: rgba(96, 165, 250, 0.4);
+      }
+      .popup-settings input:checked + .slider:before {
+        transform: translateX(100%);
+        background-color: #fff;
+      }
+      .photo {
+        width: 500px;
+        position: relative;
+        object-fit: contain;
+        border-radius: 20px;
+        box-shadow:
+          0 25px 50px rgba(0, 0, 0, 0.3),
+          0 0 0 1px rgba(255, 255, 255, 0.1) inset;
+      }
+
 
       .chiudi {
         position: absolute;
@@ -523,6 +628,28 @@ class DoorPackageCard extends HTMLElement {
         color: #fff;
         letter-spacing: -0.5px;
       }
+      .popup-buttons {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 16px;
+        margin-top: 20px;
+        flex-wrap: wrap;
+      }
+
+      .popup-buttons .btn {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 12px 16px;
+        min-width: 100px;
+        min-height: 40px;
+        border-radius: 16px;
+        font-size: 16px;
+        gap: 8px;
+      }
+
 
       .setting-row {
         display: flex;
@@ -612,11 +739,11 @@ class DoorPackageCard extends HTMLElement {
       @media (max-width: 510px) {
         .card {
           padding: 2px 2px 2px;
-          max-width: 350px;
+          max-width: 450px;
+          max-height: 500px;
           margin: 0 auto;  /* Centra la card orizzontalmente */
           overflow: hidden; /* Nasconde eventuali fuoriuscite */
         }
-
         .header {
           flex-direction: column;
           align-items: center;
@@ -676,10 +803,16 @@ class DoorPackageCard extends HTMLElement {
 
         .pulsanti-laterali {
           flex-direction: row;
+          display: flex;
+          align-items: center;
           justify-content: center;
-          gap: 16px;
-          margin-top: 12px;
-          width: 100%;
+          padding: 12px 16px;
+          width: clamp(100px, 50%, 200px); /* LARGHEZZA FLESSIBILE */
+          max-height: 200px;
+          min-width: 120px;
+          border-radius: 16px;
+          font-size: 16px;
+          gap: 8px;
         }
 
         .btn {
@@ -688,10 +821,14 @@ class DoorPackageCard extends HTMLElement {
           min-width: auto;
         }
 
-        .popup-buttons {
-          flex-direction: column;
-          gap: 12px;
+        .popup-buttons .btn {
+          width: clamp(100px, 50%, 200px); /* LARGHEZZA FLESSIBILE */
+          max-width: 240px;
+          min-width: 120px;
+          justify-content: center;
+          text-align: center;
         }
+
 
         .popup-buttons .btn {
           width: 100%;
@@ -707,7 +844,8 @@ class DoorPackageCard extends HTMLElement {
         }
         .card {
           padding: 2px 2px 2px;
-          max-width: 250px;
+          max-width: 300px;
+          max-height: 500px;
           margin: 0 auto;  /* Centra la card orizzontalmente */
           overflow: hidden; /* Nasconde eventuali fuoriuscite */
         }
@@ -781,7 +919,7 @@ class DoorPackageCard extends HTMLElement {
     }
 
     if (type === 'snapshot') {
-      return `
+      return  `
         <h3>Ultimo Snapshot</h3>
         <img class="photo" src="${snapshotPath || 'img/snapshot.jpg'}" alt="Snapshot" />
       `;
@@ -870,13 +1008,14 @@ class DoorPackageCard extends HTMLElement {
 
   getSettingsData() {
     return {
-      time: this._hass.states['sensor.time']?.state || '--:--',
-      date: this._hass.states['sensor.date']?.state || '----',
-      telegramNotify: this._hass.states['input_boolean.notify_telegram_porta']?.state === 'on',
-      haNotify: this._hass.states['input_boolean.notify_push_porta']?.state === 'on',
-      startTime: this._hass.states['input_datetime.orario_inizio_notifiche_porta']?.state || '07:00',
-      endTime: this._hass.states['input_datetime.orario_fine_notifiche_porta']?.state || '22:00'
-    };
+	  time: (this._hass && this._hass.states && this._hass.states['sensor.time']) ? this._hass.states['sensor.time'].state : '--:--',
+	  date: (this._hass && this._hass.states && this._hass.states['sensor.date']) ? this._hass.states['sensor.date'].state : '----',
+      telegramNotify: (this._hass && this._hass.states && this._hass.states['input_boolean.notify_telegram_porta'] && this._hass.states['input_boolean.notify_telegram_porta'].state === 'on'),
+
+	  haNotify: (this._hass && this._hass.states && this._hass.states['input_boolean.notify_push_porta'] && this._hass.states['input_boolean.notify_push_porta'].state === 'on'),
+	  startTime: (this._hass && this._hass.states && this._hass.states['input_datetime.orario_inizio_notifiche_porta'] && this._hass.states['input_datetime.orario_inizio_notifiche_porta'].state) || '07:00',
+	  endTime: (this._hass && this._hass.states && this._hass.states['input_datetime.orario_fine_notifiche_porta'] && this._hass.states['input_datetime.orario_fine_notifiche_porta'].state) || '22:00'
+	};
   }
 
   toggleNotification(type) {
@@ -898,11 +1037,18 @@ class DoorPackageCard extends HTMLElement {
   }
 
   _updatePinModal() {
+    const snapshotPath = (
+      this._hass &&
+      this._hass.states &&
+      this._hass.states['input_text.snapshot_path_frontend'] &&
+      this._hass.states['input_text.snapshot_path_frontend'].state
+    ) || '';
+
     this._modalContainer.innerHTML = this.renderModal(
       'pin',
       this._pinFeedback,
       this.getSettingsData(),
-      this._hass.states['input_text.snapshot_path_frontend']?.state
+     snapshotPath
     );
 
     this._modalContainer.querySelectorAll('.key').forEach(btn => {
@@ -1002,4 +1148,3 @@ window.customCards.push({
   name: 'Door Package Card',
   description: 'Una card moderna per controllare porta e portone'
 });
-
