@@ -22,14 +22,16 @@ Per utilizzare "Door Package Card" nella tuo dashboard, puoi aggiungere una sche
 ```
 type: custom:door-package-card
 smartlock: lock.porta
+gate: lock.portone
 building-door: switch.cancello
 sensor: binary_sensor.sensore_porta_package     #CONFIGURAZIONE OBBLIGATORIA
 ```
 
 
 # Parametri:
+
 - `smartlock`: La tua entità  che rappresenta il blocco della porta (tipi di entità configurabili: `lock`).
-- `building-door`: La tua entità che rappresenta il cancello o portone (tipi di entità configurabili: `switch`,`script`,`lock`).
+- `building-door` & `gate`: La tua entità che rappresenta il cancello o portone (tipi di entità configurabili: `switch`,`script`,`lock`).
 - `sensor`: La tua entità  sensore della porta, che rileva se la porta è aperta o chiusa (e.g., `binary_sensor.sensore_porta_package`). Questo sensore è obbligatorio e fa parte del package, quindi scrivere quello di default.
 
 
