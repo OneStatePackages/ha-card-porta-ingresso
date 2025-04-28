@@ -22,8 +22,8 @@ Per utilizzare "Door Package Card" nella tuo dashboard, puoi aggiungere una sche
 ```
 type: custom:door-package-card
 smartlock: lock.porta
-gate: lock.portone
-building-door: switch.cancello
+gate: switch.portone
+building-door: script.cancello
 sensor: binary_sensor.sensore_porta_package     #CONFIGURAZIONE OBBLIGATORIA
 ```
 
