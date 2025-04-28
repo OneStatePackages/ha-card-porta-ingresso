@@ -28,7 +28,7 @@ sensor: binary_sensor.sensore_porta_package     #CONFIGURAZIONE OBBLIGATORIA
 ```
 
 
-# Parametri:
+## Parametri:
 
 - `smartlock`: La tua entità  che rappresenta il blocco della porta (tipi di entità configurabili: `lock`).
 - `building-door` & `gate`: La tua entità che rappresenta il cancello o portone (tipi di entità configurabili: `switch`,`script`,`lock`).
@@ -64,5 +64,5 @@ resources:
     type: module
 ```
 
-# 3. Salvataggio e Ricarica
+## 3. Salvataggio e Ricarica
 Una volta che hai aggiunto la configurazione, assicurati di salvare i cambiamenti e ricaricare la dashboard per vedere la nuova card in azione.
