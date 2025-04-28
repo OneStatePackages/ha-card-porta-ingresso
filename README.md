@@ -37,7 +37,7 @@ sensor: binary_sensor.sensore_porta_package     #CONFIGURAZIONE OBBLIGATORIA
 
 
 
-### Installazione Manuale
+# Installazione Manuale
 
 Per integrare la **Door Package Card** in Home Assistant, segui questi passaggi:
 
