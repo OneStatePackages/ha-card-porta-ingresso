@@ -119,7 +119,7 @@ class DoorPackageCard extends HTMLElement {
 
   getBuildingDoorState() {
     const door = this._config['building-door'] && this._hass.states[this._config['building-door']];
-    return door ? door.state : '--';
+    return door && door.state === 'unlocked' ? 'Sbloccato/a' : 'Bloccato/a';
   }
 
   handlePinInput(event) {
@@ -306,6 +306,7 @@ class DoorPackageCard extends HTMLElement {
         justify-content: space-between;
         align-items: center;
         gap: 32px;
+        margin-top: -40px !important;
       }
 
       .img-porta {
@@ -318,6 +319,7 @@ class DoorPackageCard extends HTMLElement {
         transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
         cursor: pointer;
         object-fit: cover;
+        margin-top: 20px;
       }
 
       .img-porta:hover {
