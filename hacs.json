@@ -1,7 +1,7 @@
 {
   "name": "door-package-card",
   "render_readme": true,
-  "homeassistant": "2023.1.0b0",
+  "homeassistant": "2024.3.0"
   "filename": "door-package-card.js",
   "persistent_directory": "www/door-package-card"
 }
